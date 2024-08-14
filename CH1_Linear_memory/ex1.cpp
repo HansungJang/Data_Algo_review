@@ -1,4 +1,13 @@
-// vector 구현 (동적 메모리 함수)
+// #  Goal: '동적 크기 배열' 구현 (동적 메모리 함수)
+
+// keywords: 깊은/얕은 복사, operator를 사용한 wrapper class구현
+
+// 새롭게 알게된 문법:
+// 1. sstream(ostringstram / 다양한 타입을 문자열로 변환 저장),
+// 2. friend (private, protected 멤버를 접근할 수 있음),
+// 3. ' ... '의 의미  (try-catch문에서 모든 예외를 처리)
+
+
 // input: 학생수, 학생 정보 
 // design: 배열 
 // function: 다양한 크기 배열, 여러반을 하나로 합치는 기능
