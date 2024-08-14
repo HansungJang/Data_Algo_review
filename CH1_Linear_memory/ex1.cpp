@@ -107,10 +107,76 @@ class dynamic_array
 struct student
 {
     string name; 
-    int classnum;  
+    int age;  
 }; 
 
 ostream& operator<<(ostream& os, const student& s)
 {
-    return (os<< "[" << s.name << "," << s.classnum << "]"); 
+    return (os<< "[" << s.name << "," << s.age << "]"); 
+}
+
+int main()
+{
+    int nStudents; 
+    cout << "1st class student number : "; 
+    cin >> nStudents; 
+
+    dynamic_array<student> class1(nStudents);
+    for(int i = 0; i < nStudents; i++)
+    {
+        string name; 
+        int age; 
+        cout << (i+1) << "th stdent name : "; 
+        getline(cin, name); 
+        cout << (i+1) << "th stdent age : "; 
+        cin >> age;  
+
+        class1[i] = student{name, age}; 
+    }
+
+// 예외 발생 조건 
+    try
+    {
+        class1.at(nStudents) = student{"John", 8}; 
+    }catch(...)
+    {
+        cout << "exception throw!" << endl; 
+    }
+
+// 깊은 복사 (only value)
+
+    cout << "깊은 복사 " <<  endl;  
+    auto class2 = class1; 
+
+    cout << "1반을 복사하여 2반 생성" << endl;
+    cout << "1반 정보 : " << class1.to_string() << endl; 
+    cout << "2반 정보 : " << class2.to_string() << endl;
+
+    class2[0].age = 99; 
+
+    cout << "1반 정보 : " << class1.to_string() << endl; 
+    cout << "2반 정보 : " << class2.to_string() << endl;
+
+    cout << endl; 
+
+// 얕은 복사 
+    cout << "얕은 복사 " << endl;  
+    auto* class3 = &class1;
+
+    cout << "1반을 복사하여 3반 생성" << endl;
+    cout << "1반 정보 : " << class1.to_string() << endl; 
+    cout << "3반 정보 : " << class2.to_string() << endl;
+
+    (class3->begin()->age) = 98; 
+
+    cout << "1반 정보 : " << class1.to_string() << endl; 
+    cout << "3반 정보 : " << (*class3).to_string() << endl;
+
+
+    cout << endl; 
+
+//  두 학급을 합치는 연산 
+    auto class4 = class1 + class2; 
+    cout << "1, 2반을 합쳐 4반 생성 : " << class4.to_string() << endl; 
+
 }
