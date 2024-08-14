@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream> // string type 입력 
 #include <algorithm>
+#include <string>
 
 using namespace std; 
 
@@ -31,10 +32,15 @@ class dynamic_array
             this->n = other.n;
             this->data = new T[n]; 
             
-            int i = 0; 
-            for(T elem : other.data)
+            // int i = 0; 
+            // for(T elem : other.data)
+            // {
+            //     this.data[i++] = elem; 
+            // }
+
+            for(int i = 0; i < n; i++)
             {
-                this.data[i++] = elem; 
+                data[i] = other[i];
             } 
         }  
 
@@ -42,24 +48,24 @@ class dynamic_array
         // member 변수에 접근 하는 함수 
         T& operator[](int index) // 원본 수정가능 read, write (O)
         {
-            return this.data[index]; 
+            return data[index]; 
         }
 
         const T& operator[](int index) const // only read 
         {
-            return this.data[index]; 
+            return data[index]; 
         }
 
         T& at(int index) // java style 
         {
             if(index < n)
-                return this->data[index]; 
+                return data[index]; 
             throw "Index is out of range"; 
         }
 
         size_t size() const 
         {
-            return this.n; 
+            return n; 
         }
 
         // 반복자 순회에 사용될 반복자 관련 함수 
@@ -72,22 +78,23 @@ class dynamic_array
         friend dynamic_array<T> operator+(const dynamic_array<T>& arr1, dynamic_array<T>& arr2)
         {
             dynamic_array<T> result(arr1.size() +  arr2.size());
-            copy(arr1.begin(), arr1.end(), data.begin());
-            copy(arr2.begin(), arr2.end(), data.begin() + arr1.size());
+            copy(arr1.begin(), arr1.end(), result.begin());
+            copy(arr2.begin(), arr2.end(), result.begin() + arr1.size());
 
-            return data;  
+            return result;  
         }
 
         // 문자열 구분 
         string to_string(const string& sep = ", ")
         {
-            if(this.n == 0) return ""; 
+            if(n == 0) return ""; 
 
             ostringstream os; 
-            for(T elem : data)
+            // for(T elem : data)
+            for(int i = 0; i < n; i++)
             {
-                os << elem; 
-                if(elem != data[n-1]) os << sep; 
+                os << data[i]; 
+                if(i < (n-1)) os << sep; 
                 
             } 
 
@@ -120,12 +127,16 @@ int main()
     int nStudents; 
     cout << "1st class student number : "; 
     cin >> nStudents; 
-
     dynamic_array<student> class1(nStudents);
     for(int i = 0; i < nStudents; i++)
     {
+     //   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+
         string name; 
         int age; 
+        cin.ignore();
+
         cout << (i+1) << "th stdent name : "; 
         getline(cin, name); 
         cout << (i+1) << "th stdent age : "; 
