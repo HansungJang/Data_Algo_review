@@ -78,6 +78,22 @@ class dynamic_array
             return data;  
         }
 
+        // 문자열 구분 
+        string to_string(const string& sep = ", ")
+        {
+            if(this.n == 0) return ""; 
+
+            ostringstream os; 
+            for(T elem : data)
+            {
+                os << elem; 
+                if(elem != data[n-1]) os << sep; 
+                
+            } 
+
+            return os.str(); 
+
+        }
 
 
         ~dynamic_array()
@@ -87,3 +103,14 @@ class dynamic_array
 
 }; 
 
+
+struct student
+{
+    string name; 
+    int classnum;  
+}; 
+
+ostream& operator<<(ostream& os, const student& s)
+{
+    return (os<< "[" << s.name << "," << s.classnum << "]"); 
+}
