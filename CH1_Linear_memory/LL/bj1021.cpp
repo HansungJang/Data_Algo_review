@@ -58,14 +58,16 @@ int distance_left(int num, const queue<int> list)
         temp[index++] = trevers.front();   
         trevers.pop(); 
     }
-
+    // cout << index << endl; 
     index-=1; 
     while(temp[index] != num)
     {
+        if(distance > list.size()) break; 
         distance++; 
-        index--; 
+        index--; // 음수 발생! 
     }
 
+    delete[] temp;
     return distance; 
 }
 
@@ -96,7 +98,7 @@ int main()
 
     while(index_list.size() > 0)
     {
-        int target = index_list.front() - 1; 
+        int target = index_list.front(); 
         index_list.pop(); 
 
         int left = distance_left(target, queue_list);
