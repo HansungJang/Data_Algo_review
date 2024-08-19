@@ -35,8 +35,8 @@ void moveRight(queue<int>& list, int num)
         list.pop(); 
     }
 
-    index-=1; 
-    for(int i = 0; i < num; i++){list.push(temp[index - i]); }
+    // index-=1; 
+    for(int i =  index - num; i < index; i++){list.push(temp[i]); }
     for(int i = 0; i < index - num; i++){list.push(temp[i]);}
     delete[] temp; 
 }; 
@@ -46,37 +46,37 @@ void printOut(queue<int>& list)
     while(list.size() > 0){cout << list.front() << ", "; list.pop();}
 }
 
-int distance_left(int num, const queue<int> list)
+int distance_right(int num, const queue<int> list)
 {
     queue<int> trevers = list; 
-    int distance = 0; 
+    int distance = 1; 
     int index = 0; 
 
     int* temp = new int[trevers.size()]; 
     while(trevers.size() > 0)
     {
         temp[index++] = trevers.front();   
-        trevers.pop(); 
+        trevers.pop();  
     }
     // cout << index << endl; 
     index-=1; 
     while(temp[index] != num)
     {
-        if(distance > list.size()) break; 
+        if(distance > list.size() || index < 0) break; 
         distance++; 
-        index--; // 음수 발생! 
+        index--; 
     }
 
     delete[] temp;
     return distance; 
 }
 
-int distance_right(int num, const queue<int> list)
+int distance_left(int num, const queue<int>& list)
 {
     queue<int> trevers = list; 
     int distance = 0; 
     
-    while(trevers.front() != num)
+    while(trevers.front() != num) 
     {
         distance++;
         trevers.pop(); 
