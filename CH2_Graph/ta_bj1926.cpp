@@ -22,6 +22,12 @@
 */
 
 
+// issue note, 
+// 1. BFS 탐색 조건 if문 (데이터의 범위, 탐색조건) 2가지를 통합하여 조건을 생성하려고 하니 조건문 길고 해당 과정에서 논리 오류 발생 
+// -> sol, 종료 및 탈출 조건으로 역조건을 사용
+// 2. element 탐색 조건 4방향 및 visit 배열 (초기화 부분) -> 초기화는 false 통일, 방문시 true로 선언 표기 
+// 3. segemntation fault(조건문 && 연산도 순서가 존재) 및 access empty container(queue.empty() 인 상황에서 해당 elemnt 를 접근하려고하는 경우) run-time error가 발생하니 조건문으로 대비할 것.  
+
 #include <iostream>
 #include <queue>
 #include <algorithm>
@@ -38,25 +44,29 @@ int art_BFS(vector<vector<int>>& map, vector<vector<bool>>& map_visit, int  i, i
 
 
     art.push(make_pair(i, j)); 
+    map_visit[i][j] = true; 
     while(art.size() > 0)
     {
         int x = art.front().second; 
         int y = art.front().first; 
+        art.pop(); 
 
         for(int dir = 0; dir < 4; dir++)
         {
-            // if(x + dx[dir] < col && y + dy[dir] < row && x + dx[dir] >= 0 && y + dy[dir] >= 0)
-            // {
-                if(x + dx[dir] < col && y + dy[dir] < row && x + dx[dir] >= 0 && y + dy[dir] >= 0 && map[y + dy[dir]][x + dx[dir]] == 1 && map_visit[y + dy[dir]][x + dx[dir]] == true)
+
+            int nx = x + dx[dir]; 
+            int ny = y + dy[dir]; 
+
+            if(nx < 0 || ny < 0 || nx >= col || ny >= row) continue; 
+            
+            if(map[ny][nx] == 1 && map_visit[ny][nx] == false)
                 {
-                    art.push(make_pair(y + dy[dir], x + dx[dir]));
-                    map_visit[y + dy[dir]][x + dx[dir]] = false; 
+                    art.push(make_pair(ny, nx));
+                    map_visit[ny][nx] = true; 
                     count++; 
                 }
-            // }
         }
 
-        art.pop(); 
     }
 
     return count; 
@@ -67,12 +77,12 @@ int art_BFS(vector<vector<int>>& map, vector<vector<bool>>& map_visit, int  i, i
 int main()
 {
     int row, col; 
-
-    cin >> row >> col; 
-
     vector<vector<int>> map; 
     vector<vector<bool>> map_visit; 
     vector<int> art_size; 
+
+    cin >> row >> col; 
+
     for(int i = 0; i < row; i++)
     {
         vector<int> elem_map; 
@@ -82,8 +92,7 @@ int main()
             int elem; 
             cin >> elem; 
             elem_map.push_back(elem); 
-            if(elem_map[j] == 1 ) elem_m_visit.push_back(true);
-            else{elem_m_visit.push_back(false);}  
+            elem_m_visit.push_back(false);
         }
 
         map.push_back(elem_map); 
@@ -95,7 +104,7 @@ int main()
     {
         for(int j = 0; j < col; j++)
         {
-            if(map[i][j] == 1 && map_visit[i][j] == true)
+            if(map[i][j] == 1 && map_visit[i][j] == false)
             {
                 int size = art_BFS(map, map_visit, i, j, row, col);
                 art_size.push_back(size);  
@@ -104,7 +113,9 @@ int main()
     }
 
     sort(art_size.begin(), art_size.end()); 
-    cout << art_size.size() << endl << art_size.back(); 
-        
+    cout << art_size.size() << endl; 
+    if(!art_size.empty()) cout << art_size.back(); 
+    else{cout << 0 ; }
+
     return 0; 
 }

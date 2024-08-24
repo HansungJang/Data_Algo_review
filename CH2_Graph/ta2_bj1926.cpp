@@ -52,13 +52,13 @@ int main() {
         }
     }
  
-    int cnt = 0;   //영역 개수
+    // int cnt = 0;   //영역 개수 v.size() 해도 갯수 동일
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             if (map[i][j] == 1 && visited[i][j] == 0) {
                 BFS(i, j);
                 v.push_back(s);
-                cnt++;
+                // cnt++;
                 s = 1;
             }
         }
@@ -66,9 +66,10 @@ int main() {
  
     sort(v.begin(), v.end(), compare); //벡터 오름차순 정렬
  
-    cout << cnt << endl;
- 
-    if (cnt == 0) {
+    // cout << cnt << endl;
+    cout << v.size() << endl;
+     
+    if (v.size() == 0) {
         cout << 0 << endl;
     }
     else {
