@@ -3,7 +3,7 @@
 [reference]
 - flag / https://cplusplus.com/reference/ios/ios_base/flags/
 - setf / https://cplusplus.com/reference/ios/ios_base/setf/
-
+- unsetf / https://chatgpt.com/share/2b270ab5-4007-4842-bd3c-36087c2ae359
 flag 사용 예시 
  #include <iostream>     // std::cout, std::ios
 
@@ -24,7 +24,7 @@ int main () {
 
 cout의 flag를 사용할 떄, 
 cout.setf(출력 방향(왼/오른/internal), 출력 진법, 부동소수점 표기) 선언을 할수 있음 
-cout.setf
+cout.unsetf (특정 선언 flag 해제)
  */
 #include <iostream>
 using namespace std; 
@@ -32,9 +32,16 @@ using namespace std;
 int main()
 {
     int num; 
-    for(int i = 1; i < num; i++)
+    cin >> num; 
+
+
+    for(int i = 1; i <= num; i++)
     {
-        for(int num = 0; num < i; num++) printf
+        string star; 
+        for(int size = 0; size < i; size++) star += '*'; 
+        cout.setf(std::ios::right);
+        cout.width(num); 
+        cout << star << endl;  
     }
     return 0; 
 }
