@@ -24,31 +24,39 @@ E: 4 * V : maximum E : 4 * 625 == 2,500
 
 using namespace std;
 
+int count  = 0; // 연결된 village 갯수 count
+
 int dx[] = {0, 1, 0, -1}; // 하,우,상,좌
 int dy[] = {1, 0, -1, 0}; 
 
-int find_room(vector<vector<int>>& housemap, vector<vector<bool>>& check, int y, int x, int size)
+// idea, DFS는 only 연결된 부분만 marking
+void find_room(vector<vector<int>>& housemap, vector<vector<bool>>& check, int y, int x, int size)
 {
-    int vilage_count = 1; 
-    
+    // int vilage_count = 1; 
+    ::count+=1;
+
     for(int i = 0; i < 4; i++)
     {
         int nx = x + dx[i];
         int ny = y + dy[i]; 
 
-        if(nx < 0 || ny < 0 || nx >= size || ny >= size) break; 
+        if(nx < 0 || ny < 0 || nx >= size || ny >= size) return; 
 
         else
         {
-            if(housemap[ny][nx] == 1 && check[ny][nx] == false)
+            if(housemap[ny][nx] != 1 || check[ny][nx] != false) return; 
+            if(housemap[ny][nx] == 1 && check[ny][nx] == false) // return 0; 
+            // else 
             {
                 check[ny][nx] = true; 
-                return (vilage_count + find_room(housemap, check, ny, nx, size)); 
+                // return (vilage_count + find_room(housemap, check, ny, nx, size)); 
+                //vilage_count += 
+                find_room(housemap, check, ny, nx, size); 
             }
         }
     }
 
-    return vilage_count;
+    // return vilage_count;
 }
 
 
@@ -66,12 +74,17 @@ int main()
 
     for(int i = 0; i < size; i++)
     {
-        int elem; 
-        cin >> elem; 
-        housemap[i].push_back(elem); 
-        check[i].push_back(false); 
+        for(int j = 0; j < size; j++)
+        {
+            int elem; 
+            cin >> elem; 
+            housemap[i].push_back(elem); 
+            check[i].push_back(false); 
+
+        }
     }
 
+// ta idea, recurrsion 값 받아오기 보다, 전역변수 사용하는 것이 편리 
     for(int i = 0; i < size; i++)
     {
         for(int j = 0; j < size; j++)
@@ -79,7 +92,9 @@ int main()
             if(housemap[i][j] == 1 && check[i][j] == false)
             {
                 check[i][j] = true; 
-                village.push_back(find_room(housemap, check, i, j, size)); 
+                find_room(housemap, check, i, j, size);
+                village.push_back(::count); 
+                ::count = 0; 
             }
         }
     }
