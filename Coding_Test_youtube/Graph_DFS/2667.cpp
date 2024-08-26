@@ -40,11 +40,15 @@ void find_room(vector<vector<int>>& housemap, vector<vector<bool>>& check, int y
         int nx = x + dx[i];
         int ny = y + dy[i]; 
 
-        if(nx < 0 || ny < 0 || nx >= size || ny >= size) return; 
+        // return을 사용하면 다음방향 고려 X
+        // 재귀를 사용한다고 다음 방향 탐색이 불가능하도록 하는게 아님!  
+        // 재귀에서 중요한 것은 종료 조건인데 다음 함수는 for-loop가 유한한 범위를 순환. 따라서 Foor-Loop의 갯수를 높여주면 됨.  
+
+        if(nx < 0 || ny < 0 || nx >= size || ny >= size) continue;//return; 
+        //else if(housemap[ny][nx] != 1 || check[ny][nx] != false) continue;  
 
         else
         {
-            if(housemap[ny][nx] != 1 || check[ny][nx] != false) return; 
             if(housemap[ny][nx] == 1 && check[ny][nx] == false) // return 0; 
             // else 
             {
@@ -54,8 +58,10 @@ void find_room(vector<vector<int>>& housemap, vector<vector<bool>>& check, int y
                 find_room(housemap, check, ny, nx, size); 
             }
         }
+
     }
 
+    return; 
     // return vilage_count;
 }
 
@@ -72,17 +78,21 @@ int main()
     vector<vector<bool>> check(size); 
     vector<int> village; 
 
-    for(int i = 0; i < size; i++)
-    {
-        for(int j = 0; j < size; j++)
-        {
-            int elem; 
-            cin >> elem; 
-            housemap[i].push_back(elem); 
-            check[i].push_back(false); 
 
+    // 입력 고려되지 않은 부분 (입력이 붙어서 입력 됨.)
+    for(int i= 0; i < size; i++)
+    {
+        cin.ignore(); 
+        string elem; 
+        getline(cin, elem); 
+        for(int j =0; j < elem.length(); j++)
+        {
+            if(elem[j] == '1') {housemap[i].push_back(1);}
+            else{housemap[i].push_back(0);}
+            check[i].push_back(false); 
         }
     }
+
 
 // ta idea, recurrsion 값 받아오기 보다, 전역변수 사용하는 것이 편리 
     for(int i = 0; i < size; i++)
