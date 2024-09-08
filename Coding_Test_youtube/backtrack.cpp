@@ -27,14 +27,17 @@
 issue Note 
 - 1 trial, 시간초과
 >> sol 비트마스킹, 출력 버퍼 사용(I/O 최적화), reference operator사용, .... 
+-> 비트마스킹, (30 ~ 31 경우의 수) 작은 크기 해당하는 sol, 우리문제의 경우 적합하지 않음.  
+-> 
 
+- 2 trial, fixed 방법 
+>> 입출력 동기화를 줄임으로서 연산속도를 개선시킴.   
 */
 
 #include <iostream>
 #include <vector>
 
 using namespace std; 
-
 
 vector<int> elem; 
 
@@ -62,11 +65,19 @@ void backtrack(bool check[], int N, int M)
 }
 
 
+
 int main()
 {
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
     int N, M; 
     cin >> N >> M; 
+    
     bool check[N+1] = {false, }; 
-    backtrack(check, N, M); 
+    backtrack(check, N, M);
+
+
     return 0; 
 }

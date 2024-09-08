@@ -21,7 +21,13 @@ condition
 4. 대각선 위 (오른쪽) 1개 초과하는 queen이 있으면 안된다.
 5. 대각선 위 (왼쪽) 1개 초과하는 queen이 있으면 안된다.
 
+
+- 1 trial issue;
 */
+
+
+
+
 
 
 #include <iostream>
